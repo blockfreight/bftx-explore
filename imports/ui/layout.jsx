@@ -6,7 +6,7 @@ export default class Layout extends React.Component {
         return (
 
             <div className="wrapper">
-                <img src="/images/blockfreight_logo_grey.svg" width="300px" /> Explorer
+                <img src="/images/blockfreight_logo_grey.svg" width="300px" /> Block Explorer
                 <div className="app2">
                     {this.props.main}
                 </div>
