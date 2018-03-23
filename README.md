@@ -1,6 +1,5 @@
 # bftx-explore
 Blockfreight™ block explorer.
-
 ## Todo
 ### Query list of latest transaction from blockchain
 ### Get single transaction from blockchain
