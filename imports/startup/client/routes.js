@@ -3,10 +3,16 @@ import {mount} from 'react-mounter';
 import React from 'react';
 import RichGridDeclarativeExample from "../../ui/latest-transactions";
 import Layout from "../../ui/layout";
-
+import TransactionList from "../../ui/TransactionList"
+import Transaction from "../../ui/Transaction"
 FlowRouter.route('/', {
     action(){
-        mount(Layout, {main: <RichGridDeclarativeExample />});
+        mount(Layout, {main: <TransactionList />});
+    }
+});
+FlowRouter.route('/t/:t', {
+    action(){
+        mount(Layout, {main: <Transaction />});
     }
 });
 FlowRouter.route('/login', {
