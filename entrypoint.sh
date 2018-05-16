@@ -1,0 +1,1 @@
+curl https://raw.githubusercontent.com/blockfreight/go-bftx/homedir/bin/bfn.sh|sh

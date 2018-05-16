@@ -27,7 +27,7 @@ function isJson(str) {
     return true;
 }
 
-HTTP.get("http://localhost:46657/status",(e,r)=>{
+HTTP.get("http://bftnode:46657/status",(e,r)=>{
     if(e){
         console.log(e);
         return;
@@ -35,7 +35,7 @@ HTTP.get("http://localhost:46657/status",(e,r)=>{
 
     console.log(r.data.result.latest_block_height)
     for(var i = parseInt(r.data.result.latest_block_height);i!=0;i-- ){
-        HTTP.get("http://localhost:46657/block?height="+i,(e,r)=>{
+        HTTP.get("http://bftnode:46657/block?height="+i,(e,r)=>{
             //console.log(r.data.result.block.data.txs)
            // if(r.data.result.block.data.txs.length >0){
                     r.data.result.block.data.txs.forEach(o=>{
@@ -160,7 +160,7 @@ Meteor.startup(() => {
     // EventUnlock            = "Unlock"
     // EventVote              = "Vote"
     // EventProposalHeartbeat = "ProposalHeartbeat"
-    const ws = new Sockette('ws://localhost:46657/websocket', {
+    const ws = new Sockette('ws://bftnode:46657/websocket', {
         timeout: 5e3,
         maxAttempts: 10,
         onopen: e => {//console.log('Connected!', e)
