@@ -161,8 +161,8 @@ Meteor.startup(() => {
     // EventVote              = "Vote"
     // EventProposalHeartbeat = "ProposalHeartbeat"
     const ws = new Sockette('ws://bftnode:46657/websocket', {
-        timeout: 5e3,
-        maxAttempts: 10,
+        timeout: 1000,
+        maxAttempts: 5e3,
         onopen: e => {//console.log('Connected!', e)
             ws.send('{"jsonrpc": "2.0", "id": "11", "method": "subscribe", "params": ["tm.event=\'Tx\'"] }');
         },
