@@ -57,7 +57,8 @@ class TransactionList extends React.Component {
 export default withTracker(props => {
     const handle = Meteor.subscribe('transactions');
     //Transactions.allow({})
-    Transactions.findOne()
+    //Transactions.findOne()
+    Transactions.find().fetch();
     return{};
     // return {
     //     //currentUser: Meteor.user(),

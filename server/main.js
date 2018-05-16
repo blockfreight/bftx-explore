@@ -4,9 +4,16 @@ import "/imports/api/server/publications"
 import Sockette from "sockette"
 //import {Base64} from "base64"
 import _ from "lodash"
+
+let socketServerAddress = process.env.BFT_NODE;
+if(undefined==socketServerAddress)
+{
+    socketServerAddress = "bftnode";
+}
+
 WebSocket = require('ws')
 f = Meteor.bindEnvironment((e,cb) => {
-     //   console.log(e);
+        console.log(e);
     let result = JSON.parse(e.data)
 
     if( _.get(result, 'result.data.type')== "tx")
@@ -27,7 +34,7 @@ function isJson(str) {
     return true;
 }
 
-HTTP.get("http://bftnode:46657/status",(e,r)=>{
+HTTP.get("http://"+socketServerAddress+":46657/status",(e,r)=>{
     if(e){
         console.log(e);
         return;
@@ -35,7 +42,7 @@ HTTP.get("http://bftnode:46657/status",(e,r)=>{
 
     console.log(r.data.result.latest_block_height)
     for(var i = parseInt(r.data.result.latest_block_height);i!=0;i-- ){
-        HTTP.get("http://bftnode:46657/block?height="+i,(e,r)=>{
+        HTTP.get("http://"+socketServerAddress+":46657/block?height="+i,(e,r)=>{
             //console.log(r.data.result.block.data.txs)
            // if(r.data.result.block.data.txs.length >0){
                     r.data.result.block.data.txs.forEach(o=>{
@@ -160,7 +167,7 @@ Meteor.startup(() => {
     // EventUnlock            = "Unlock"
     // EventVote              = "Vote"
     // EventProposalHeartbeat = "ProposalHeartbeat"
-    const ws = new Sockette('ws://bftnode:46657/websocket', {
+    const ws = new Sockette('ws://'+socketServerAddress+':46657/websocket', {
         timeout: 1000,
         maxAttempts: 5e3,
         onopen: e => {//console.log('Connected!', e)
