@@ -2,29 +2,29 @@ import { Meteor } from 'meteor/meteor';
 import {Transactions} from "../imports/api/lib/collections";
 import "/imports/api/server/publications"
 import Sockette from "sockette"
-//import {Base64} from "base64"
 import _ from "lodash"
 
 let socketServerAddress = process.env.BFT_NODE;
 if(undefined==socketServerAddress)
 {
-    socketServerAddress = "bftnode";
+    socketServerAddress = "localhost";
 }
 
-WebSocket = require('ws')
+  WebSocket = require('ws')
 f = Meteor.bindEnvironment((e,cb) => {
         console.log(e);
     let result = JSON.parse(e.data)
 
     if( _.get(result, 'result.data.type')== "tx")
     {
-        Transactions.insert(JSON.parse(String.fromCharCode.apply(null, Base64.decode(result.result.data.data.tx))));
-        //.result.data.data
-
+        let jsonObject = JSON.parse(String.fromCharCode.apply(null, Base64.decode(result.result.data.data.tx)));
+        jsonObject.AppTimestamp=  (new Date()).getTime()
+        jsonObject.TxTimestamp =result.result.data.data.result.tags.find(timestamp=>{return timestamp.key=="bftx.timestamp"}).value_int
+        jsonObject.Height =result.result.data.data.height;
+        Transactions.upsert(jsonObject.Id,jsonObject);
     }
-          // cb()
-
 })
+
 function isJson(str) {
     try {
         JSON.parse(str);
@@ -34,6 +34,14 @@ function isJson(str) {
     return true;
 }
 
+function TagsById(json,id) {
+    return json.data.result.results.DeliverTx.find((o)=> {
+        return o.tags.find((t)=> {
+            return t.valueString == id && t.key=="bftx.id"
+        })
+    }).tags
+
+}
 HTTP.get("http://"+socketServerAddress+":46657/status",(e,r)=>{
     if(e){
         console.log(e);
@@ -41,19 +49,22 @@ HTTP.get("http://"+socketServerAddress+":46657/status",(e,r)=>{
     }
 
     console.log(r.data.result.latest_block_height)
-    for(var i = parseInt(r.data.result.latest_block_height);i!=0;i-- ){
-        HTTP.get("http://"+socketServerAddress+":46657/block?height="+i,(e,r)=>{
-            //console.log(r.data.result.block.data.txs)
-           // if(r.data.result.block.data.txs.length >0){
-                    r.data.result.block.data.txs.forEach(o=>{
-                        if(isJson(String.fromCharCode.apply(null, Base64.decode(o)))){
-                        //Transactions.insert(JSON.parse(String.fromCharCode.apply(null, Base64.decode(result.result.data.data.tx)));
-                        console.log(String.fromCharCode.apply(null, Base64.decode(o)));
-                        let jsonObject = JSON.parse(String.fromCharCode.apply(null, Base64.decode(o)))
-
-                        Transactions.upsert(jsonObject.Id,jsonObject);
-                        }
-                    })
+    var i
+    for(i = parseInt(r.data.result.latest_block_height);i!=0;i-- ){
+        HTTP.get("http://"+socketServerAddress+":46657/block?height="+i,(e1,block)=>{
+            HTTP.get("http://"+socketServerAddress+":46657/block_results?height="+block.data.result.block.header.height,(e2,block_result)=> {
+                block.data.result.block.data.txs.forEach(o => {
+                    if (isJson(String.fromCharCode.apply(null, Base64.decode(o)))) {
+                        //  console.log(String.fromCharCode.apply(null, Base64.decode(o)));
+                        let jsonObject = JSON.parse(String.fromCharCode.apply(null, Base64.decode(o)));
+                        jsonObject.AppTimestamp = (new Date()).getTime();
+                        //jsonObject.Tags = TagsById(block_result, jsonObject.Id);
+                        jsonObject.TxTimestamp =TagsById(block_result, jsonObject.Id).find(timestamp=>{return timestamp.key=="bftx.timestamp"}).valueInt
+                        jsonObject.Height =block.data.result.block.header.height;
+                        Transactions.upsert(jsonObject.Id, jsonObject);
+                    }
+                })
+            })
             //}
         })
     }
@@ -177,9 +188,7 @@ Meteor.startup(() => {
         //     Meteor.bindEnvironment((obj)
         //     Transactions.insert(e);
         // )
-        onmessage:  e =>{
-
-                f(e)},
+        onmessage:  e =>{ f(e)},
         onreconnect: e => console.log('Reconnecting...', e),
         onmaximum: e => console.log('Stop Attempting!', e),
         onclose: e => console.log('Closed!', e),

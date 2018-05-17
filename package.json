@@ -6,10 +6,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.36",
-    "abci": "^2.1.0",
-    "ag-grid": "^17.0.0",
-    "ag-grid-react": "^17.0.0",
+    "@material-ui/core": "^1.0.0-rc.1",
     "lodash": "^4.17.10",
+    "material-ui": "^0.20.1",
     "meteor-node-stubs": "^0.3.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

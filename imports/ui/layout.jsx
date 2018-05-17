@@ -13,7 +13,7 @@ class Layout extends React.Component {
                     <a href="/"><img src="/images/blockfreight_logo_grey.svg" width="300px" /></a>
                     {/*<div className="header">Block Explorer</div>*/}
                 </div>
-                <div>c
+                <div>
                     {this.props.main}
                 </div>
             </div>

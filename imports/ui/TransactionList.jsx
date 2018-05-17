@@ -4,9 +4,23 @@ import React from 'react';
 import {compose} from "react-komposer";//'meteor/nicocrm:react-komposer-tracker'
 import {Transactions} from '/imports/api/lib/collections';
 import { withTracker } from 'meteor/react-meteor-data';
+import Fade from '@material-ui/core/Fade';
 class TransactionList extends React.Component {
     constructor(p){
         super(p)
+    }
+     timeConverter(UNIX_timestamp){
+        UNIX_timestamp = parseInt(UNIX_timestamp);
+        var a = new Date(UNIX_timestamp * 1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        return time;
     }
     render() {
         blockNum = 3
@@ -23,28 +37,70 @@ class TransactionList extends React.Component {
                         {/*<a href="/#/block/{{blockNum}}">Latest Block: </a>*/}
                         {/*</h4>*/}
                         {/*style="padding:0px;float:left;margin:0px;width:100%"*/}
+
                         <table className="table table-striped" cellPadding="0" cellSpacing="0" >
                             <tbody>
                             <tr>
                                 <th>Block #</th>
                                 <th>Tx #</th>
+                                <th>Timestamp</th>
+                                <th>Unix</th>
                                 {/*<th>Size</th>*/}
                                 {/*<th>Timestamp</th>*/}
                             </tr>
-                            {Transactions.find().fetch().map((t,i)=>{
+                            {Transactions.find({}, {sort: {TxTimestamp: -1}}).fetch().sort((a, b) => {
+                                return (a.TxTimestamp < b.TxTimestamp) ? 1 : -1
+                            }).map((t, i) => {
 
-                                return(
-                                    <tr key={i}>
-                                        <td><a href="/#/block/"></a></td>
-                                        <td> <a href={"/t/" +t.Id}>{t.Id}</a></td>
-                                        {/*<td></td>*/}
-                                        {/*<td></td>*/}
-                                    </tr>
-                                )
-                            })}
+                                    if (i == 0) {
+                                        return (
+
+                                            <tr key={i}>
+
+                                                <td><Fade timeout={{enter: 1000}} in={true}>
+                                                    <div><a href={"/t/" + t.Id}>{t.Height}</a></div>
+                                                </Fade></td>
+                                                <td><Fade timeout={{enter: 1000}} in={true}>
+                                                    <div><a href={"/t/" + t.Id}>{t.Id}</a></div>
+                                                </Fade></td>
+                                                <td><Fade timeout={{enter: 1000}} in={true}>
+                                                    <div><a href={"/t/" + t.Id}>{this.timeConverter(t.TxTimestamp)}</a>
+                                                    </div>
+                                                </Fade></td>
+                                                <td><Fade timeout={{enter: 1000}} in={true}>
+                                                    <div>
+                                                        <div></div>
+                                                        <a href={"/t/" + t.Id}> {t.TxTimestamp}   </a></div>
+                                                </Fade></td>
+
+                                            </tr>
+                                        )
+                                    } else {
+                                        return (
+                                            <tr key={i}>
+
+                                                <td>
+                                                    <div><a href={"/t/" + t.Id}> {t.Height}</a></div>
+                                                </td>
+                                                <td>
+                                                    <div><a href={"/t/" + t.Id}> {t.Id}</a></div>
+                                                </td>
+                                                <td>
+                                                    <div><a href={"/t/" + t.Id}> {this.timeConverter(t.TxTimestamp)}</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div><a href={"/t/" + t.Id}> {t.TxTimestamp}   </a></div>
+                                                </td>
+
+                                            </tr>
+
+                                        )
+                                    }
+                                }
+                            )}
                             </tbody>
                         </table>
-
                     </div>
                     {/*{this.props.main}*/}
                 </div>
@@ -58,7 +114,7 @@ export default withTracker(props => {
     const handle = Meteor.subscribe('transactions');
     //Transactions.allow({})
     //Transactions.findOne()
-    Transactions.find().fetch();
+    Transactions.find({},{sort:{TxTimestamp:-1}}).fetch();
     return{};
     // return {
     //     //currentUser: Meteor.user(),
