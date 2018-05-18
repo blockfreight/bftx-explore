@@ -15,7 +15,7 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import Favorite from '@material-ui/icons/Visibility';
 import FavoriteBorder from '@material-ui/icons/VisibilityOff';
 import green from '@material-ui/core/colors/green';
-class Transaction extends React.Component {
+class Save extends React.Component {
     state = {encrypting:true, decrypted:false}
     constructor(p){
         super(p)
@@ -39,18 +39,16 @@ class Transaction extends React.Component {
     {
         location.href="mailto:?subject=Transaction:" + this.transaction.Id + "&body="+location.href
     }
-    Save = () =>
+    Pdf = () =>
     {
-        window.open("/images/pass.pkpass",Math.random())
-        //FlowRouter.go("/s/"+FlowRouter.current().params.t)
-        //alert("todo: Download PDF")
-
+        alert("todo: Download PDF")
     }
     Done = () =>
     {
         FlowRouter.go("/")
     }
     render() {
+        Meteor.call("GetPass")
         const { classes } = this.props;
         const t = Transactions.findOne({Id:FlowRouter.current().params.t})
         this.transaction = t;
@@ -66,37 +64,41 @@ class Transaction extends React.Component {
             <div className="wrapper">
                 <div className="QRCode">
                     <div className="section-to-print">
-                    <QRCode  value={this.transaction.Id} />
+                        <QRCode  value={this.transaction.Id} />
                     </div>
                 </div>
                 <div className="noPrint">
-                <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Decrypt}>
-                    Decrypt with QR Key
-                </Button>
+                    <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Decrypt}>
+                        Decrypt with QR Key
+                    </Button>
                     {/*<Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Encrypt}>*/}
-                        {/*Create QR Key*/}
+                    {/*Create QR Key*/}
                     {/*</Button>*/}
-                {/*&nbsp;*/}
-                <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Print}>
-                    Print
-                </Button>
-                &nbsp;
-                <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Send}>
-                    Send
-                </Button>
-                &nbsp;
-                <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Save}>
-                    Save
-                </Button>
-                &nbsp;
-                <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Done}>
-                   Done
-                </Button>
+                    {/*&nbsp;*/}
+                    <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Print}>
+                        Print
+                    </Button>
+                    &nbsp;
+                    <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Send}>
+                        Send
+                    </Button>
+                    &nbsp;
+                    <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Pdf}>
+                        Pdf
+                    </Button>
+                    &nbsp;
+                    <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Done}>
+                        Done
+                    </Button>
                 </div>
                 <div className="section-to-print">
                     <div className={classes.doc}>
-
-
+                        <form method="get" action="https://www.passsource.com/pass/create.php">
+                            <input type="hidden" name="templateHash" value="eNortjIysVIqLA00jIiyyC0pMXKOcPYqyrIozC4ItLVVsgZcMKPxCfk," />
+                            <label>Enter your member number:</label>
+                            <input type="text" name="barcode_message" />
+                            <input type="submit" value="Get Pass" />
+                        </form>
                         <span className="eye"><Checkbox  className={classes.checkbox} icon={<FavoriteBorder />} checkedIcon={<Favorite />} defaultChecked={this.state.decrypted} value={this.transaction.Id} /> </span>
                         Id : ${this.transaction.Id} <br/>
                         <span className="eye"><Checkbox  className={classes.checkbox} icon={<FavoriteBorder />} checkedIcon={<Favorite />} defaultChecked={this.state.decrypted} value={this.transaction.Shipper} /></span>
@@ -163,10 +165,10 @@ class Transaction extends React.Component {
                         IssueDetails.PlaceOfIssue : Place 1 <br/>
                         <span className="eye"><Checkbox  className={classes.checkbox} icon={<FavoriteBorder />} checkedIcon={<Favorite />} defaultChecked={this.state.decrypted} value={this.transaction.Shipper} /></span>
                         IssueDetails.DateOfIssue : 20171228 <br/>
-                                        <br/>
+                        <br/>
                         <span className="eye"><Checkbox  className={classes.checkbox} icon={<FavoriteBorder />} checkedIcon={<Favorite />} defaultChecked={this.state.decrypted} value={this.transaction.Shipper} /></span>
                         NumBol : 15555 <br/>
-                                        <br/>
+                        <br/>
                         <span className="eye"><Checkbox  className={classes.checkbox} icon={<FavoriteBorder />} checkedIcon={<Favorite />} defaultChecked={this.state.decrypted} value={this.transaction.Shipper} /></span>
                         MasterInfo.FirstName : First name masterinfo <br/>
                         <span className="eye"><Checkbox  className={classes.checkbox} icon={<FavoriteBorder />} checkedIcon={<Favorite />} defaultChecked={this.state.decrypted} value={this.transaction.Shipper} /></span>
@@ -227,8 +229,8 @@ const styles = theme => ({
         maxWidth: 250,
     },
     checkbox: {
-     //   marginBottom: 16,
-     //   color: green[500],
+        //   marginBottom: 16,
+        //   color: green[500],
         visibility: "hidden",
         height:0
     },
@@ -250,7 +252,7 @@ const styles = theme => ({
 
     },
 });
-Transaction.propTypes = {
+Save.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 export default withTracker(props => {
@@ -260,4 +262,4 @@ export default withTracker(props => {
         listLoading: !handle.ready(),
         transactions: Transactions.find().fetch(),
     };
-})(withStyles(styles)(Transaction));
+})(withStyles(styles)(Save));

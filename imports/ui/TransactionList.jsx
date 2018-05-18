@@ -5,6 +5,9 @@ import {compose} from "react-komposer";//'meteor/nicocrm:react-komposer-tracker'
 import {Transactions} from '/imports/api/lib/collections';
 import { withTracker } from 'meteor/react-meteor-data';
 import Fade from '@material-ui/core/Fade';
+//import {withStyles} from "@material-ui/core/styles/index";
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 class TransactionList extends React.Component {
     constructor(p){
         super(p)
@@ -22,6 +25,7 @@ class TransactionList extends React.Component {
         var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
         return time;
     }
+
     render() {
         blockNum = 3
         return (
@@ -109,6 +113,15 @@ class TransactionList extends React.Component {
         );
     }
 }
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+
+    },
+});
+TransactionList.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 export default withTracker(props => {
     const handle = Meteor.subscribe('transactions');
@@ -121,4 +134,4 @@ export default withTracker(props => {
     //     listLoading: !handle.ready(),
     //     transactions: Transactions.find().fetch(),
     // };
-})(TransactionList);
+})(withStyles(styles)(TransactionList));

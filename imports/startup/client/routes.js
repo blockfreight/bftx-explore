@@ -5,6 +5,9 @@ import React from 'react';
 import Layout from "../../ui/layout";
 import TransactionList from "../../ui/TransactionList"
 import Transaction from "../../ui/Transaction"
+import Scan from "../../ui/Scan"
+import Decrypt from "../../ui/Decrypt"
+import Save from "../../ui/Save"
 FlowRouter.route('/', {
     action(){
         mount(Layout, {main: <TransactionList />});
@@ -13,6 +16,21 @@ FlowRouter.route('/', {
 FlowRouter.route('/t/:t', {
     action(){
         mount(Layout, {main: <Transaction />});
+    }
+});
+FlowRouter.route('/scan', {
+    action(){
+        mount(Layout, {main: <Scan />});
+    }
+});
+FlowRouter.route('/decrypt', {
+    action(){
+        mount(Layout, {main: <Decrypt />});
+    }
+});
+FlowRouter.route('/s/:t', {
+    action(){
+        mount(Layout, {main: <Save />});
     }
 });
 // FlowRouter.route('/login', {

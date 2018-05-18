@@ -32,8 +32,8 @@
         <item url="file://$USER_HOME$/.meteor/packages/boilerplate-generator/1.4.0/web.browser/template-web.browser.js" />
         <item url="file://$USER_HOME$/.meteor/packages/boilerplate-generator/1.4.0/web.browser/template-web.cordova.js" />
         <item url="file://$USER_HOME$/.meteor/packages/boilerplate-generator/1.4.0/web.browser/template.js" />
-        <item url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.9/web.browser/caching-compiler.js" />
-        <item url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.9/web.browser/multi-file-caching-compiler.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.12/web.browser/caching-compiler.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.12/web.browser/multi-file-caching-compiler.js" />
         <item url="file://$USER_HOME$/.meteor/packages/caching-html-compiler/1.1.2/web.browser/caching-html-compiler.js" />
         <item url="file://$USER_HOME$/.meteor/packages/callback-hook/1.1.0/web.browser/hook.js" />
         <item url="file://$USER_HOME$/.meteor/packages/callback-hook/1.1.0/web.browser/hook_tests.js" />
@@ -223,8 +223,8 @@
       <root url="file://$USER_HOME$/.meteor/packages/boilerplate-generator/1.4.0/web.browser/template-web.browser.js" />
       <root url="file://$USER_HOME$/.meteor/packages/boilerplate-generator/1.4.0/web.browser/template-web.cordova.js" />
       <root url="file://$USER_HOME$/.meteor/packages/boilerplate-generator/1.4.0/web.browser/template.js" />
-      <root url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.9/web.browser/caching-compiler.js" />
-      <root url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.9/web.browser/multi-file-caching-compiler.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.12/web.browser/caching-compiler.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/caching-compiler/1.1.12/web.browser/multi-file-caching-compiler.js" />
       <root url="file://$USER_HOME$/.meteor/packages/caching-html-compiler/1.1.2/web.browser/caching-html-compiler.js" />
       <root url="file://$USER_HOME$/.meteor/packages/callback-hook/1.1.0/web.browser/hook.js" />
       <root url="file://$USER_HOME$/.meteor/packages/callback-hook/1.1.0/web.browser/hook_tests.js" />
