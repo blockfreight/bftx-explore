@@ -44,12 +44,15 @@ class Decrypt extends React.Component {
         let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
         this.scanner = scanner;
         scanner.addListener('scan', function (content) {
-            if(!content.startsWith("BFT"))
-            {
-                alert("Not a transaction")
-                return;
-            }
-            FlowRouter.go("/t/"+content);
+            // if(!content.startsWith("BFT"))
+            // {
+            //     alert("Not a transaction")
+            //     return;
+            // }
+            // FlowRouter.go("/t/"+content);
+            //FlowRouter.navigate()
+            this.
+            history.back()
             console.log(content);
         });
         Instascan.Camera.getCameras().then(function (cameras) {

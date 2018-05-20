@@ -47,7 +47,7 @@ HTTP.get("http://"+socketServerAddress+":46657/status",(e,r)=>{
         console.log(e);
         return;
     }
-
+return;
     console.log(r.data.result.latest_block_height)
     var i
     for(i = parseInt(r.data.result.latest_block_height);i!=0;i-- ){

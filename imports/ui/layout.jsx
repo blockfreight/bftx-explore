@@ -17,7 +17,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+// var Mnemonic = require('bitcore-mnemonic');
+// var Buffer = require('buffer/').Buffervar Mnemonic = require('bitcore-mnemonic');
+// var Buffer = require('buffer/').Buffer
 const Instascan = require('instascan');
 
 class Layout extends React.Component {
@@ -77,6 +79,13 @@ class Layout extends React.Component {
     handleClose = () => {
         this.setState({ open: false });
     };
+    New = () =>
+    {
+        this.setState({"Id":"BFTX"})
+        this.setState({"Shipper":""})
+        this.setState({mode:"new"})
+        FlowRouter.go("/n/BFTX")
+    }
     render() {
        console.log(this.state.open)
 
@@ -154,25 +163,28 @@ class Layout extends React.Component {
 
                     {/*<div className="header">Block Explorer</div>*/}
                 </div>
-                <br/> <div className="noPrint">
+                <div className="noPrint">
                 <div className="float-left">
+                    <TextField className={classes.button}
 
+                               onKeyPress={this.EnterTx}
+                               onChange={this.ChangeTx}
+                               id="search"
+                               label="Lookup Transaction by 24 word mnomonic phrase or BFTX code"
+                               type="search"
+                               fullWidth={true}
+                               margin="normal"
+                    />
+                    <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.New}>
+                        New
+                    </Button>
                     <Button className={classes.button} variant="raised" size="medium" color="primary" onClick={this.ScanTransactionQrCode} >
-                        Camera Scan Transaction QR Code
+                        &nbsp;Camera Scan Transaction QR Code&nbsp;
                     </Button>
 
 
 
-                    <TextField className={classes.button}
 
-                        onKeyPress={this.EnterTx}
-                        onChange={this.ChangeTx}
-                        id="search"
-                        label="Lookup Transaction"
-                        type="search"
-
-                        margin="normal"
-                    />
                 </div>
 
             </div>

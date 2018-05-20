@@ -8,6 +8,7 @@ import Transaction from "../../ui/Transaction"
 import Scan from "../../ui/Scan"
 import Decrypt from "../../ui/Decrypt"
 import Save from "../../ui/Save"
+//import { Tracker } from 'meteor/tracker'
 FlowRouter.route('/', {
     action(){
         mount(Layout, {main: <TransactionList />});
@@ -15,7 +16,7 @@ FlowRouter.route('/', {
 });
 FlowRouter.route('/t/:t', {
     action(){
-        mount(Layout, {main: <Transaction />});
+        mount(Layout, {main: <Transaction action="view" {...this} />});
     }
 });
 FlowRouter.route('/scan', {
@@ -23,14 +24,24 @@ FlowRouter.route('/scan', {
         mount(Layout, {main: <Scan />});
     }
 });
-FlowRouter.route('/decrypt', {
+FlowRouter.route('/decrypt/:t', {
     action(){
-        mount(Layout, {main: <Decrypt />});
+        mount(Layout, {main: <Decrypt {...this} />});
+    }
+});
+FlowRouter.route('/t/:t/:k', {
+    action(){
+        mount(Layout, {main: <Transaction  action="view" {...this} />});
     }
 });
 FlowRouter.route('/s/:t', {
     action(){
         mount(Layout, {main: <Save />});
+    }
+});
+FlowRouter.route('/n/:t', {
+    action(){
+        mount(Layout, {main: <Transaction action="new" />});
     }
 });
 // FlowRouter.route('/login', {
@@ -54,4 +65,19 @@ FlowRouter.route('/s/:t', {
 //
 //         }
 //     }
+// });
+// Tracker.autorun(function() {
+//     FlowRouter.watchPathChange();
+//
+//     try{
+//         //this.props.navigation.state.params.refresh()
+//         var currentContext = FlowRouter.current();
+//         //FlowRouter.reload(currentContext.path)
+//         // do anything with the current context
+//         // or anything you wish
+//     }catch(e)
+//     {
+//
+//     }
+//
 // });
