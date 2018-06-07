@@ -47,9 +47,9 @@ class Transaction extends React.Component {
         super(p)
         this.props = p;
        // this.setState({docKey : crypto.randomBytes(32)})
-        seed = crypto.randomBytes(32).toString("hex");//.toString("hex");
+        let seed = crypto.randomBytes(32).toString("hex");//.toString("hex");
         //Mnemonic.fromSeed(seed.toString("hex"));//new Buffer(seed.toString("hex")))
-        code = new Mnemonic(Mnemonic.Words.ENGLISH);
+        let code = new Mnemonic(Mnemonic.Words.ENGLISH);
         console.log(FlowRouter.current().params.k)
         //code.fromSeed(new Buffer(seed))
         //code.fromMasterSeed(new Buffer(FlowRouter.current().params.k))
@@ -157,18 +157,30 @@ class Transaction extends React.Component {
     ShowQRCode()
     {
         return (
-            <div style={{position:"absolute", bottom:12, right:12, width:300,height:300}}>
-                BFTX Key: {Mnemonic.fromSeed(Buffer.from(FlowRouter.current().params.t.substring(4), 'hex'),Mnemonic.Words.ENGLISH).phrase}
-                Docu Key: {Mnemonic.fromSeed(Buffer.from(this.state.docKey, 'hex'),Mnemonic.Words.ENGLISH).phrase}
+
+            <div style={{position:"absolute", bottom:10, right:0,}}>
+                <div style={{  width:100,height:100, float:"right", marginLeft:33}}>
+                    <a  href={location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + "/qr/" + bs58.encode(Buffer.from(FlowRouter.current().params.t, 'hex'))+"/"+bs58.encode(Buffer.from(this.state.docKey, 'hex'))} >
+                        <QRCode  value={location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + "/qr/" + bs58.encode(Buffer.from(FlowRouter.current().params.t, 'hex'))+"/"+bs58.encode(Buffer.from(this.state.docKey, 'hex'))} />
+                    </a>
+                    {/*{location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '')}*/}
+                    {/*{this.state.docKey}*/}
+                    {/*{this.code.toString()}*/}
+                </div>
+                <div style={{  width:250,height:100, float:"right", marginLeft:33}}>
+                    BFTX Key: {Mnemonic.fromSeed(Buffer.from(FlowRouter.current().params.t.substring(4), 'hex'),Mnemonic.Words.ENGLISH).phrase}
+                </div>
+                <div style={{   width:250,height:100, float:"right", marginLeft:33}}>
+                    Docu Key: {Mnemonic.fromSeed(Buffer.from(this.state.docKey, 'hex'),Mnemonic.Words.ENGLISH).phrase}
+                </div>
+                {/*<div  style={{   width:250,height:100, float:"right", marginLeft:33}}>*/}
+                    {/*/!*{this.transaction.Id}*!/*/}
+                    {/*<br/>*/}
+                    {/*{this.transaction==undefined?"":this.transaction.TxTimestamp}*/}
 
 
-                <a  href={location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + "/qr/" + bs58.encode(Buffer.from(FlowRouter.current().params.t, 'hex'))+"/"+bs58.encode(Buffer.from(this.state.docKey, 'hex'))} >
 
-                <QRCode  value={location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + "/qr/" + bs58.encode(Buffer.from(FlowRouter.current().params.t, 'hex'))+"/"+bs58.encode(Buffer.from(this.state.docKey, 'hex'))} />
-            </a>
-                {/*{location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '')}*/}
-                {/*{this.state.docKey}*/}
-                {/*{this.code.toString()}*/}
+                {/*</div>*/}
             </div>
 
         )
@@ -193,6 +205,8 @@ class Transaction extends React.Component {
                         {FlowRouter.current().params.k !=undefined?this.ShowQRCode():""}
                     </div>
                 </div>
+                <div style={{position:"absolute", top:50, right:0,}}>
+                    <div style={{  width:420,height:100, float:"right", marginLeft:33}}>
                 <div className="noPrint">
                     {/*<Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.Decrypt}>*/}
                         {/*Decrypt with QR Key*/}
@@ -212,11 +226,11 @@ class Transaction extends React.Component {
                         Done
                     </Button>
                 </div>
+                    </div>
+                </div>
                 <div className="section-to-print">
                     <div className={classes.doc}>
-                        <Field state={this.state} node={this.transaction} name="Id" />
-                        <Field state={this.state} node={_.get(this,"transaction")} name="TxTimestamp" />
-                        <br/>
+
 
                         <Field state={this.state} node={_.get(this,"transaction.Properties")} name="Shipper" />
                         <Field state={this.state} node={_.get(this,"transaction.Properties")} name="BolNum" />

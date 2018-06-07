@@ -22,12 +22,16 @@ class TransactionList extends React.Component {
         var hour = a.getHours();
         var min = a.getMinutes();
         var sec = a.getSeconds();
+
+         (hour.toString().length==2)?"":hour="0"+hour.toString();
+         (min.toString().length==2)?"":min="0"+min.toString();
+         (sec.toString().length==2)?"":sec="0"+sec.toString();
         var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
         return time;
     }
 
     render() {
-        blockNum = 3
+        //blockNum = 3
         return (
             <div className="wrapper">
 
@@ -42,13 +46,14 @@ class TransactionList extends React.Component {
                         {/*</h4>*/}
                         {/*style="padding:0px;float:left;margin:0px;width:100%"*/}
 
-                        <table className="table table-striped" cellPadding="0" cellSpacing="0" >
+                        <table className="table table-striped" cellPadding="0" cellSpacing="0" style={{width:"100%"}} >
                             <tbody>
                             <tr>
-                                <th>Block #</th>
-                                <th>Tx #</th>
+
+                                <th>Transaction Id</th>
                                 <th>Timestamp</th>
-                                <th>Unix</th>
+                                <th>Block</th>
+                                {/*<th>Unix</th>*/}
                                 {/*<th>Size</th>*/}
                                 {/*<th>Timestamp</th>*/}
                             </tr>
@@ -61,21 +66,22 @@ class TransactionList extends React.Component {
 
                                             <tr key={i}>
 
+
                                                 <td><Fade timeout={{enter: 1000}} in={true}>
-                                                    <div><a href={"/t/" + t.Id}>{t.Height}</a></div>
-                                                </Fade></td>
-                                                <td><Fade timeout={{enter: 1000}} in={true}>
-                                                    <div><a href={"/t/" + t.Id}>{t.Id}</a></div>
+                                                    <div><a href={"/t/" + t.Id}><pre>{t.Id}</pre></a></div>
                                                 </Fade></td>
                                                 <td><Fade timeout={{enter: 1000}} in={true}>
                                                     <div><a href={"/t/" + t.Id}>{this.timeConverter(t.TxTimestamp)}</a>
                                                     </div>
                                                 </Fade></td>
                                                 <td><Fade timeout={{enter: 1000}} in={true}>
-                                                    <div>
-                                                        <div></div>
-                                                        <a href={"/t/" + t.Id}> {t.TxTimestamp}   </a></div>
+                                                    <div><a href={"/t/" + t.Id}>{t.Height}</a></div>
                                                 </Fade></td>
+                                                {/*<td><Fade timeout={{enter: 1000}} in={true}>*/}
+                                                    {/*<div>*/}
+                                                        {/*<div></div>*/}
+                                                        {/*<a href={"/t/" + t.Id}> {t.TxTimestamp}   </a></div>*/}
+                                                {/*</Fade></td>*/}
 
                                             </tr>
                                         )
@@ -83,19 +89,20 @@ class TransactionList extends React.Component {
                                         return (
                                             <tr key={i}>
 
+
                                                 <td>
-                                                    <div><a href={"/t/" + t.Id}> {t.Height}</a></div>
-                                                </td>
-                                                <td>
-                                                    <div><a href={"/t/" + t.Id}> {t.Id}</a></div>
+                                                    <div><a href={"/t/" + t.Id}><pre>{t.Id}</pre></a></div>
                                                 </td>
                                                 <td>
                                                     <div><a href={"/t/" + t.Id}> {this.timeConverter(t.TxTimestamp)}</a>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div><a href={"/t/" + t.Id}> {t.TxTimestamp}   </a></div>
+                                                    <div><a href={"/t/" + t.Id}> {t.Height}</a></div>
                                                 </td>
+                                                {/*<td>*/}
+                                                    {/*<div><a href={"/t/" + t.Id}> {t.TxTimestamp}   </a></div>*/}
+                                                {/*</td>*/}
 
                                             </tr>
 

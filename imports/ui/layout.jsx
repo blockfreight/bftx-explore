@@ -17,7 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-// var Mnemonic = require('bitcore-mnemonic');
+//import Mnemonic from 'bitcore-mnemonic';
 // var Buffer = require('buffer/').Buffervar Mnemonic = require('bitcore-mnemonic');
 // var Buffer = require('buffer/').Buffer
 const Instascan = require('instascan');
@@ -25,15 +25,20 @@ const Instascan = require('instascan');
 class Layout extends React.Component {
     state = {
         open: true,
+        searchValue:FlowRouter.current().params.t
     };
 
-    // constructor(p){
-    //     super(p)
-    //     this.props = p;
-    //     state = {
-    //         open: true,
-    //     };
-    // }
+    constructor(p){
+        super(p)
+        this.props = p;
+        // state = {
+        //     open: true,
+        // };
+        this.state = {
+            open: true,
+            searchValue:this.GetBFTX()
+        };
+    }
     ScanTransactionQrCode =()=>
     {
         this.setState({open:true})
@@ -86,8 +91,17 @@ class Layout extends React.Component {
         this.setState({mode:"new"})
         FlowRouter.go("/n/BFTX")
     }
+    GetBFTX = () =>
+    {
+        return FlowRouter.current().params.t;
+    }
+    handleChange = (value, event) =>{
+        this.setState({
+            searchValue: value.target.value
+        });
+    }
     render() {
-       console.log(this.state.open)
+       //console.log(this.state.open)
 
         // return(
         //     <div>
@@ -163,29 +177,33 @@ class Layout extends React.Component {
 
                     {/*<div className="header">Block Explorer</div>*/}
                 </div>
-                <div className="noPrint">
+                {/*<div className="noPrint">*/}
                 <div className="float-left">
                     <TextField className={classes.button}
-
+                                value={this.state.searchValue}
                                onKeyPress={this.EnterTx}
-                               onChange={this.ChangeTx}
+                               onChange={this.handleChange}
                                id="search"
-                               label="Lookup Transaction by 24 word mnomonic phrase or BFTX code"
+                               label="Transaction Id"
                                type="search"
-                               fullWidth={true}
-                               margin="normal"
+                               style={{width:"98%"}}
+                               margin="dense"
                     />
-                    <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.New}>
-                        New
-                    </Button>
-                    <Button className={classes.button} variant="raised" size="medium" color="primary" onClick={this.ScanTransactionQrCode} >
-                        &nbsp;Camera Scan Transaction QR Code&nbsp;
-                    </Button>
+                    <div style={{position:"absolute", top:0, right:0,}}>
+                        <div className="noPrint">
+                    <div style={{  width:420,height:100, float:"right", marginLeft:33}}>
+                        <Button variant="raised" size="medium" color="primary" className={classes.button} onClick={this.New}>
+                            New
+                        </Button>
+                        <Button className={classes.button} variant="raised" size="medium" color="primary" onClick={this.ScanTransactionQrCode} >
+                            &nbsp;Camera Scan Transaction QR Code&nbsp;
+                        </Button>
+                    </div>
+                        </div>
+                    </div>
 
 
-
-
-                </div>
+                {/*</div>*/}
 
             </div>
                 <div>

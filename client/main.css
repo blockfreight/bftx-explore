@@ -1,4 +1,8 @@
 /* CSS declarations go here */
+html {
+    overflow-y: scroll;
+}
+th {text-align: left;}
 .QRCode {
     width:300px;
     float: right;

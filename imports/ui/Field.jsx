@@ -22,6 +22,43 @@ import CryptoJS from 'crypto-js';
 var crypto = require("crypto");
 var eccrypto = require("eccrypto");
 
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+
+    },
+    doc: {
+        margin: theme.spacing.unit,
+
+    },
+    block: {
+        maxWidth: 250,
+    },
+    checkbox: {
+        //   marginBottom: 16,
+        //   color: green[500],
+        visibility: "hidden",
+        height:0
+    },
+    checkboxHidden: {
+        //   marginBottom: 16,
+        //   color: green[500],
+        visibility: "hidden",
+    },
+    checkboxVisible: {
+        //   marginBottom: 16,
+        //   color: green[500],
+        visibility: "visible",
+        height:20,
+
+    },
+    root: {
+        visibility: "hidden",
+        height:0
+
+    },
+});
+
 class Field extends React.Component
 {
     state ={name:"",value:""}
@@ -106,7 +143,7 @@ class Field extends React.Component
             console.log("encryptedValue: "+this.props.node[this.props.name])
             console.log("filedValue: " + this.decryptDataFromText(this.props.node[this.props.name],filedKey));
             this.state.value = this.decryptDataFromText(this.props.node[this.props.name],filedKey);
-            style={"width":"30%"}
+            style={"width":"29%"}
             // }
         }else {
             if(this.props.name =="Id")
@@ -115,7 +152,7 @@ class Field extends React.Component
                 style={"width":"65%"}
             }
             else {
-                style={"width":"30%"
+                style={"width":"29%"
             }
 
            }
@@ -147,9 +184,10 @@ class Field extends React.Component
     EditMode()
     {
         const { classes } = this.props;
+        style={"width":"30%"}
         return (
-            <span>
-             <span className="eye" style={{"whiteSpace": "nowrap"}}>
+            <span style={{"whiteSpace": "nowrap"}}>
+             <span className="eye" >
             <Checkbox className={classes.checkbox} icon={<FavoriteBorder/>}
                       checkedIcon={<Favorite/>} defaultChecked={false}
                       value={"da"}/></span>
@@ -161,9 +199,10 @@ class Field extends React.Component
                            style={{"color":"black"}}
                     onChange={this.FieldChange.bind(this)}
                     margin="dense"
-                           fullWidth={true}
+                           style={style}
+
              />
-            <br/>
+
             </span>)
     }
 
@@ -291,40 +330,3 @@ class Field extends React.Component
 
 export default withStyles(styles)(Field)
 
-
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-
-    },
-    doc: {
-        margin: theme.spacing.unit,
-
-    },
-    block: {
-        maxWidth: 250,
-    },
-    checkbox: {
-        //   marginBottom: 16,
-        //   color: green[500],
-        visibility: "hidden",
-        height:0
-    },
-    checkboxHidden: {
-        //   marginBottom: 16,
-        //   color: green[500],
-        visibility: "hidden",
-    },
-    checkboxVisible: {
-        //   marginBottom: 16,
-        //   color: green[500],
-        visibility: "visible",
-        height:20,
-
-    },
-    root: {
-        visibility: "hidden",
-        height:0
-
-    },
-});
