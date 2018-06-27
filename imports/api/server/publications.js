@@ -166,6 +166,7 @@ async function  GetId(Properties)
                         });
                 });
 
+
             return constructResponse;
             // '{
             //     "query": "mutation{tx: signBFTX(Id:\"BFTX99a72d715f899fdf681c7127a3b48d5b71296a9ae2bbd6c7297e61e7e462f7fa\"){Id Verified Transmitted}}"

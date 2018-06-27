@@ -46,13 +46,9 @@ class Transaction extends React.Component {
     constructor(p){
         super(p)
         this.props = p;
-       // this.setState({docKey : crypto.randomBytes(32)})
         let seed = crypto.randomBytes(32).toString("hex");//.toString("hex");
-        //Mnemonic.fromSeed(seed.toString("hex"));//new Buffer(seed.toString("hex")))
         let code = new Mnemonic(Mnemonic.Words.ENGLISH);
-        console.log(FlowRouter.current().params.k)
-        //code.fromSeed(new Buffer(seed))
-        //code.fromMasterSeed(new Buffer(FlowRouter.current().params.k))
+
         if(FlowRouter.current().params.k !=undefined)
         {
             seed = FlowRouter.current().params.k;
@@ -63,12 +59,10 @@ class Transaction extends React.Component {
     Decrypt = () =>
     {
         this.setState({docKey:"0.6316490123331346"})
-        //FlowRouter.go("/decrypt/"+this.transaction.Id)
     }
     Encrypt = () =>
     {
         this.setState({encrypting:true})
-        //FlowRouter.go("/decrypt")
     }
 
     Print = () =>
@@ -84,22 +78,13 @@ class Transaction extends React.Component {
     }
     Save = async () =>
     {
-        // if(FlowRouter.current().params.t!=undefined)
-        // {
-        //     alert("This document is already saved. Future version will enable field level rights management");
-        //     return;
-        // }
-        //window.open("/images/pass.pkpass",Math.random())
-        //FlowRouter.go("/s/"+FlowRouter.current().params.t)
-        //alert("todo: Download PDF")
-
         //encrypt each field with key from EncryptionMetaData
         //encrypt meta data based on lock option
         //
         var privateKeyA = crypto.randomBytes(32);
         var publicKeyA = eccrypto.getPublic(privateKeyA);
-        x = await eccrypto.encrypt(publicKeyA,Buffer("msg to b"))
-        y = await x;
+        let x = await eccrypto.encrypt(publicKeyA,Buffer("msg to b"))
+        let y = await x;
         console.log("crypto"+ Base64.encode((x.toString())));
 
         var privateKeyB = crypto.randomBytes(32);
@@ -232,7 +217,7 @@ class Transaction extends React.Component {
                     <div className={classes.doc}>
 
 
-                        <Field state={this.state} node={_.get(this,"transaction.Properties")} name="Shipper" />
+                        <Field state={this.state} node={_.get(this,"transaction.Properties")} name="Shipper" focus={true} />
                         <Field state={this.state} node={_.get(this,"transaction.Properties")} name="BolNum" />
                         <Field state={this.state} node={_.get(this,"transaction.Properties")} name="RefNum" />
                         <br/>

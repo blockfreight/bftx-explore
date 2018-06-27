@@ -91,32 +91,19 @@ class Field extends React.Component
         {
             this.props.state.mode = "edit"
         }
-
-
         console.log(o.target.id + " " + o.target.value)
-
-        //this.props.state.Properties[o.target.id]  = Object.assign(this.props.state.Properties[o.target.id],obj)
-        //this.props.state.Properties[o.target.id] = this.props.state.Properties[o.target.id] ||{}
-        obj = {}
+        let obj = {}
         obj[o.target.id] = this.state.keyEncrypted;
         this.props.state.Properties["EncryptionMetaData"] = this.props.state.Properties["EncryptionMetaData"] ||{}
         this.props.state.Properties["EncryptionMetaData"] = Object.assign(this.props.state.Properties["EncryptionMetaData"],obj)
         this.props.state.Properties["EncryptionMetaData"] = Object.assign(this.props.state.Properties["EncryptionMetaData"],{keyType:this.state.keyType})
         this.props.state.Properties[o.target.id]= this.encryptDataToString(o.target.value, this.state.key);//o.target.value
-
-        //this.props.state.Properties[o.target.id].meta = {key:this.state.key}
         this.setState({value:o.target.value})
         this.setState({encryptedValue:this.encryptDataToString(o.target.value, this.state.key)});
-        // this.state.value = this.state.value + o.target.value
-        // this.setState();
-
-
     }
-    //FieldChange.bind(this)
     shouldComponentUpdate(nextProps, nextState){
-    // return a boolean value
-    return true;
-}
+        return true;
+    }
     arrayToAscii  (arr) {
         var res = [];
         for (var i = 0; i < arr.length; i++) {
@@ -127,24 +114,23 @@ class Field extends React.Component
     ViewMode()
     {
         const { classes } = this.props;
+        let style;
         if(_.get(this, 'props.node['+this.props.name+']') && this.props.name !="Id" && this.props.name !="TxTimestamp") {
             if(FlowRouter.current().params.k ==undefined)
             {
                 this.state.value
                 return(<div></div>);
             }
-            // if (undefined != this.props.node[this.props.name]) {
-            //this.setState({value:this.props.transaction.Properties[this.props.name]})
+
             this.state = {name: this.props.name, value: this.props.node[this.props.name]}
-                this.isNew = false;
-            //console.log(this.decryptDataFromText(JSON.parse(this.arrayToAscii(Base64.decode(_.get(this, 'props.node[EncryptionMetaData]'))))[this.props.name],"0.9761703231864409"))
+            this.isNew = false;
             filedKey = this.decryptDataFromText(JSON.parse(this.arrayToAscii(Base64.decode(_.get(this, 'props.node[EncryptionMetaData]'))))[this.props.name],this.props.state.docKey);//"0.150276099894739");
             console.log("filedKey: " + filedKey)
             console.log("encryptedValue: "+this.props.node[this.props.name])
             console.log("filedValue: " + this.decryptDataFromText(this.props.node[this.props.name],filedKey));
             this.state.value = this.decryptDataFromText(this.props.node[this.props.name],filedKey);
             style={"width":"29%"}
-            // }
+
         }else {
             if(this.props.name =="Id")
             {
@@ -157,34 +143,31 @@ class Field extends React.Component
 
            }
         }
-        //JSON.parse(this.arrayToAscii(Base64.decode(_.get(this, 'props.node[EncryptionMetaData]')))).Shipper
-
-        //console.log(JSON.parse(this.arrayToAscii(Base64.decode(this.props.node.Properties.EncryptionMetaData))))
-            return (
+        return (
                 <span style={{"whiteSpace": "nowrap"}}>
-           <span className="eye">
-               <Checkbox className={classes.checkbox} icon={<FavoriteBorder/>}
-                         checkedIcon={<Favorite/>} defaultChecked={true}
-                         onChange={this.VisibilityChange}
-                         value={"da"}/></span>
-               <TextField className={classes.button}
-                          id={this.props.name}
-                          label={this.props.name}
-                          type="text"
-                          value={this.state.value}
-                          margin="-50"
-                          disabled={true}
-                          underlineShow={false}
-                          onChange={this.FieldChange}
-                          style={style}
-               />
-       </span>
-            )
+                   <span className="eye">
+                       <Checkbox className={classes.checkbox} icon={<FavoriteBorder/>}
+                                 checkedIcon={<Favorite/>} defaultChecked={true}
+                                 onChange={this.VisibilityChange}
+                                 value={"da"}/></span>
+                       <TextField className={classes.button}
+                                  id={this.props.name}
+                                  label={this.props.name}
+                                  type="text"
+                                  value={this.state.value + " "}
+                                  margin="-50"
+                                  disabled={true}
+                                  underlineShow={false}
+                                  onChange={this.FieldChange}
+                                  style={style}
+                       />
+                </span>
+                )
     }
     EditMode()
     {
         const { classes } = this.props;
-        style={"width":"30%"}
+        let style={"width":"30%"}
         return (
             <span style={{"whiteSpace": "nowrap"}}>
              <span className="eye" >
@@ -196,10 +179,11 @@ class Field extends React.Component
                     id={this.props.name}
                     label={this.props.name}
                     type="search"
-                           style={{"color":"black"}}
+                    style={{"color":"black"}}
                     onChange={this.FieldChange.bind(this)}
                     margin="dense"
-                           style={style}
+                    style={style}
+                    autoFocus={this.props.focus}
 
              />
 
